@@ -5,6 +5,7 @@ class CreateRestaurants < ActiveRecord::Migration[5.1]
       t.string :zipcode
       t.string :cuisines
       t.string :price_range
+      t.string :address
       # t.timestamps
     end
   end

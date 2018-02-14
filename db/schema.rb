@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20180213175445) do
     t.string "zipcode"
     t.string "cuisines"
     t.string "price_range"
+    t.string "address"
   end
 
 end
