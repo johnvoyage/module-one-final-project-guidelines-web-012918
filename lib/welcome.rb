@@ -7,10 +7,12 @@ def welcome
   puts "Press 2 to manage reservations."
   puts "Type 'exit' to quit"
   input = gets.strip.downcase
+  puts
   until input == "1" || input == "2" || input == 'exit'
     puts "Press 1 to make a reservation."
     puts "Press 2 to manage reservations."
     puts "Type 'exit' to quit"
+    p
     input = gets.strip
   end
   if input == "exit"

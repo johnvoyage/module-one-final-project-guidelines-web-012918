@@ -11,9 +11,12 @@ require_relative 'input_checks'
 def get_zipcode_from_user
   puts "Please enter your zipcode."
   zipcode = gets.strip
+  puts
   until zipcode.length == 5 && zipcode.to_i.is_a?(Fixnum) && zipcode.to_i.to_s.length == 5 && check_zipcode(zipcode)
+    puts
     puts "Please enter a valid 5-digit zipcode."
     zipcode = gets.strip
+    puts
   end
   zipcode
 end
@@ -56,6 +59,7 @@ end
 
 def beautify_nearby_restaurants(nearby_restaurants)
   puts "These restaurants are nearby."
+  puts
   x = 1
   beautified = nearby_restaurants.each do |restaurant|
     puts "#{x}. #{restaurant[:name]} -- #{restaurant[:cuisines]} -- #{restaurant[:price_range]}"

@@ -1,16 +1,32 @@
 require 'pry'
 
+
+
 def check_zipcode(zipcode)
-  api = RestClient.get("api.zippopotam.us/us/#{zipcode}"){|response, request, result| response }
-  api != "RestClient::Response 404 \"{}\""
+  response = RestClient.get("api.zippopotam.us/us/#{zipcode}"){|response, request, result| response}
+  response != "RestClient::Response 404 \"{}\"" && response.to_s != "{}"
 end
+
+# def check_zipcode_two(zipcode)
+#   begin
+#   file = open("api.zippopotam.us/us/#{zipcode}")
+#   doc = Nokogiri::HTML(file) do
+#     # handle doc
+#   end
+# rescue OpenURI::HTTPError => e
+#   if e.message == '404 Not Found'
+#     # handle 404 error
+#   else
+#     raise e
+#   end
+# end
 
 def invalid_input(nearby_restaurants)
   puts "Please enter a number between 1 and #{nearby_restaurants.length}"
 end
 
 def check_input_is_only_number(input)
-  !(input.count("a-zA-Z") > 0)
+  input.count("1234567890") == input.length
 end
 
 def same_day_and_time_reservation?(reservation_details, customer)
@@ -28,7 +44,7 @@ def valid_reservation_date?(date)
   day = date[0..1]
   month = date[3..4]
   year = date[6..9]
-  invalid_dates = ["0230", "0431", "0631", "0931", "1131"]
+  invalid_dates = ["3002", "3104", "3106", "3109", "3111"]
   if date.length != 10
     return false
   elsif day.to_i > 31
@@ -52,7 +68,7 @@ def valid_same_day_time?(time)
   available_times.include? (time)
 end
 
-def valid_reservation_time(time)
+def valid_reservation_time?(time)
   all_times.include?(time)
 end
 

@@ -10,5 +10,6 @@ gem 'json'
 gem 'nokogiri'
 gem 'bcrypt', '~> 3.1.7'
 
+# gem 'postal_code'
 # gem 'http'
 # gem 'open_uri_redirections', '~> 0.2.1'

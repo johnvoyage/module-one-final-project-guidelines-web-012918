@@ -22,11 +22,14 @@ def make_reservation
 end
 
 def get_restaurant_from_user(nearby_restaurants_neat)
+  puts
   puts "Please select a restaurant to reserve a table at. (enter a number)"
   input = gets.strip
+  puts
   until check_input_is_only_number(input) && input.to_i > 0 && input.to_i <= nearby_restaurants_neat.length
     invalid_input(nearby_restaurants_neat)
     input = gets.strip
+    puts
   end
   input.to_i - 1
 end
@@ -35,6 +38,7 @@ def customer_sign_in(restaurant_hash)
   puts "Please sign in"
   puts "enter username"
   username = gets.strip
+  puts
   customer = Customer.find_by(username: username)
   # username exists
   if customer
@@ -51,25 +55,30 @@ end
 def reservation_confirm(reservation_details, restaurant_hash, customer)
   puts "confirm reservation? y/n?"
   answer = gets.strip.downcase
+  puts
   until answer == "y" || answer =="yes" || answer == "n" || answer == "no"
     puts "confirm reservation? y/n?"
     answer = gets.strip.downcase
+    puts
   end
   if answer == "y" || answer == "yes"
     restaurant = restaurant_exist?(restaurant_hash)
     if same_day_and_time_reservation?(reservation_details, customer)
       puts "You already have a reservation for that day and time"
+      puts
     elsif restaurant
       reservation = create_reservation(reservation_details, customer, restaurant)
-      puts "Your reservation for #{reservation_details[:party_size]} at #{restaurant[:name]} on #{reservation_details[:date]} @ #{time_format(reservation_details[:time].to_s)} has been confirmed! Your reservation id is #{reservation.id}"
+      puts "Your reservation for #{reservation_details[:party_size]} at #{restaurant[:name]} on #{reservation_details[:date]} @ #{time_format(reservation_details[:time].to_s)} has been confirmed! Your confirmation # is #{reservation.id}"
+      puts
     else
       restaurant = Restaurant.create(restaurant_hash)
       reservation = create_reservation(reservation_details, customer, restaurant)
-      puts "Your reservation for #{reservation_details[:party_size]} at #{restaurant[:name]} on #{reservation_details[:date]} @ #{time_format(reservation_details[:time].to_s)} has been confirmed! Your reservation id is #{reservation.id}"
+      puts "Your reservation for #{reservation_details[:party_size]} at #{restaurant[:name]} on #{reservation_details[:date]} @ #{time_format(reservation_details[:time].to_s)} has been confirmed! Your confirmaton # is #{reservation.id}"
+      puts
     end
   elsif answer == "n" || answer == "no"
-    goodbye
-    exit
+    puts
+    welcome
   end
 end
 
@@ -94,10 +103,12 @@ end
 
 def get_password(customer)
   puts "enter password"
+  p
   password = gets.strip
   until customer.authenticate(password)
     puts "incorrect password"
     puts "enter password"
+    p
     password = gets.strip
   end
 end
@@ -105,35 +116,47 @@ end
 def get_reservation_details
   #party_size
   puts "enter party size"
+  p
   party_size = gets.strip
   until valid_party_size?(party_size)
     puts "Please enter a number (min 1, max 10)"
+    p
     party_size = gets.strip
   end
   #date
   puts "choose reservation date (dd/mm/yyyy)"
+  p
   res_date = gets.strip
   until valid_reservation_date?(res_date)
     puts "Invalid date, please enter a date with the format dd/mm/yyyy"
+    p
     res_date = gets.strip
   end
   #time
   if res_date.to_date == Date.today
     puts "These times are available. Please choose reservation time (hhmm)"
+    p
     puts available_times.join(", ")
+    p
     res_time = gets.strip.to_i
     until valid_same_day_time?(res_time)
       puts "These times are available. Please choose reservation time (hhmm)"
+      p
       puts available_times.join(", ")
+      p
       res_time = gets.strip.to_i
     end
   else
     puts "These times are available. Please select one of these times."
+    p
     puts all_times.join(", ")
+    p
     res_time = gets.strip.to_i
     until valid_reservation_time?(res_time)
       puts "These times are available. Please select one of these times."
+      p
       puts all_times.join(", ")
+      p
       res_time = gets.strip.to_i
     end
   end
@@ -198,8 +221,7 @@ def customer_sign_up
     hash[:fullname] = fullname
     hash[:phone_number] = phone_number
   else # answer == "n" || answer == "no"
-    goodbye
-    exit
+    welcome
   end
   hash
 end
