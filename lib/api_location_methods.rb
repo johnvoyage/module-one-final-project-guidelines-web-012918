@@ -53,13 +53,12 @@ def nearby_restaurants_hash(parse_data)
     cuisines: x["restaurant"]["cuisines"],
     price_range: "$" * x["restaurant"]["price_range"],
     zipcode: x["restaurant"]["location"]["zipcode"],
-    address: x["restaurant"]["location"]["address"]}
+    address: x["restaurant"]["location"]["address"],}
   end
 end
 
 def beautify_nearby_restaurants(nearby_restaurants)
   puts "These restaurants are nearby."
-  puts
   x = 1
   beautified = nearby_restaurants.each do |restaurant|
     puts "#{x}. #{restaurant[:name]} -- #{restaurant[:cuisines]} -- #{restaurant[:price_range]}"

@@ -116,11 +116,14 @@ def valid_phone_number?(phone_number)
 end
 
 def valid_username?(username)
-  if Customer.find_by(username: username)
-    puts "username taken"
+  if username.count("a-zA-Z0-9") != username.length
+    puts "Username must not contain special characters."
+    false
+  elsif Customer.find_by(username: username)
+    puts "Username is already taken."
     false
   elsif !(username.length.between?(6, 16))
-    puts "enter a username between 6 and 16 characters"
+    puts "Username must be between 6 and 16 characters."
     false
   else
     true

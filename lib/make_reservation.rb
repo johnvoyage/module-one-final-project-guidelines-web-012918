@@ -35,8 +35,8 @@ def get_restaurant_from_user(nearby_restaurants_neat)
 end
 
 def customer_sign_in(restaurant_hash)
-  puts "Please sign in"
-  puts "enter username"
+  puts "Please sign in."
+  puts "Enter username."
   username = gets.strip
   puts
   customer = Customer.find_by(username: username)
@@ -53,27 +53,27 @@ def customer_sign_in(restaurant_hash)
 end
 
 def reservation_confirm(reservation_details, restaurant_hash, customer)
-  puts "confirm reservation? y/n?"
+  puts "Confirm reservation? y/n?"
   answer = gets.strip.downcase
   puts
   until answer == "y" || answer =="yes" || answer == "n" || answer == "no"
-    puts "confirm reservation? y/n?"
+    puts "Confirm reservation? y/n?"
     answer = gets.strip.downcase
     puts
   end
   if answer == "y" || answer == "yes"
     restaurant = restaurant_exist?(restaurant_hash)
     if same_day_and_time_reservation?(reservation_details, customer)
-      puts "You already have a reservation for that day and time"
+      puts "You already have a reservation for that date and time."
       puts
     elsif restaurant
       reservation = create_reservation(reservation_details, customer, restaurant)
-      puts "Your reservation for #{reservation_details[:party_size]} at #{restaurant[:name]} on #{reservation_details[:date]} @ #{time_format(reservation_details[:time].to_s)} has been confirmed! Your confirmation # is #{reservation.id}"
+      puts "🎉🎊 Congrats! 🎊🎉 Your reservation for #{reservation_details[:party_size]} at #{restaurant[:name]} on #{reservation_details[:date]} @ #{time_format(reservation_details[:time].to_s)} has been confirmed! Your confirmation # is #{reservation.id}."
       puts
     else
       restaurant = Restaurant.create(restaurant_hash)
       reservation = create_reservation(reservation_details, customer, restaurant)
-      puts "Your reservation for #{reservation_details[:party_size]} at #{restaurant[:name]} on #{reservation_details[:date]} @ #{time_format(reservation_details[:time].to_s)} has been confirmed! Your confirmaton # is #{reservation.id}"
+      puts "🎉🎊 Congrats! 🎊🎉 Your reservation for #{reservation_details[:party_size]} at #{restaurant[:name]} on #{reservation_details[:date]} @ #{time_format(reservation_details[:time].to_s)} has been confirmed! Your confirmaton # is #{reservation.id}."
       puts
     end
   elsif answer == "n" || answer == "no"
@@ -98,66 +98,63 @@ end
 
 def customer_exist(customer)
   get_password(customer)
+  puts
   get_reservation_details
 end
 
 def get_password(customer)
-  puts "enter password"
-  p
+  puts "Enter password."
   password = gets.strip
+  puts
   until customer.authenticate(password)
-    puts "incorrect password"
-    puts "enter password"
-    p
+    puts "Incorrect password."
+    puts "Enter password."
     password = gets.strip
+    puts
   end
 end
 
 def get_reservation_details
   #party_size
-  puts "enter party size"
-  p
+  puts "Enter party size."
   party_size = gets.strip
+  puts
   until valid_party_size?(party_size)
-    puts "Please enter a number (min 1, max 10)"
-    p
+    puts "Please enter a number. (min 1, max 10)"
     party_size = gets.strip
+    puts
   end
   #date
-  puts "choose reservation date (dd/mm/yyyy)"
-  p
+  puts "Choose reservation date. (dd/mm/yyyy)"
   res_date = gets.strip
+  puts
   until valid_reservation_date?(res_date)
-    puts "Invalid date, please enter a date with the format dd/mm/yyyy"
-    p
+    puts "Invalid date. Please enter a date with the format dd/mm/yyyy."
     res_date = gets.strip
+    puts
   end
   #time
   if res_date.to_date == Date.today
-    puts "These times are available. Please choose reservation time (hhmm)"
-    p
     puts available_times.join(", ")
-    p
+    puts "The above times are available. Please choose a reservation time. (hhmm)"
     res_time = gets.strip.to_i
+    puts
     until valid_same_day_time?(res_time)
-      puts "These times are available. Please choose reservation time (hhmm)"
-      p
       puts available_times.join(", ")
-      p
+      puts "The above times are available. Please choose a reservation time. (hhmm)"
       res_time = gets.strip.to_i
+      puts
     end
   else
-    puts "These times are available. Please select one of these times."
-    p
     puts all_times.join(", ")
-    p
+    puts "The above times are available. Please select one of these times. (hhmm)"
     res_time = gets.strip.to_i
+    puts
     until valid_reservation_time?(res_time)
-      puts "These times are available. Please select one of these times."
-      p
       puts all_times.join(", ")
-      p
+      puts "The above times are available. Please select one of these times. (hhmm)"
       res_time = gets.strip.to_i
+      puts
     end
   end
   hash = {}
@@ -177,44 +174,56 @@ end
 
 def customer_sign_up
   hash = {}
-  puts "username not found. sign up? y/n?"
+  puts "Username not found. Would you like to sign up? y/n?"
   answer = gets.strip.downcase
+  puts
   until answer == "y" || answer =="yes" || answer == "n" || answer == "no"
-    puts "sign up? y/n?"
+    puts "Invalid input. Would you like to sign up? y/n?"
     answer = gets.strip.downcase
+    puts
   end
   if answer == "y" || answer =="yes"
     #username
-    puts "enter a username between 6 and 16 characters"
+    puts "Enter a username. Username must be between 6 and 16 characters with no special characters."
     username = gets.strip.downcase
+    puts
     until valid_username?(username)
       username = gets.strip.downcase
+      puts
     end
     #name
-    puts "enter full name"
+    puts "Enter your name."
     fullname = gets.strip
-    puts "enter phone number xxx-xxx-xxxx"
+    puts
+    puts "Enter your phone number. (xxx-xxx-xxxx)"
     phone_number = gets.strip
+    puts
     until valid_phone_number?(phone_number)
-      puts "Please enter a valid phone number (xxx-xxx-xxxx)"
+      puts "Enter a valid phone number. (xxx-xxx-xxxx)"
       phone_number = gets.strip
+      puts
     end
     #password
-    puts "enter a password between 8 and 16 characters"
+    puts "Enter a password. Password must be between 8 and 16 characters."
     password = gets.strip
+    puts
     until valid_password?(password)
-      puts "enter a password between 8 and 16 characters"
+      puts "Password must be between 8 and 16 characters."
       password = gets.strip
+      puts
     end
     #confirm
-    puts "confirm password"
+    puts "Confirm password."
     confirm = gets.strip
+    puts
     until password == confirm
-      puts "password did not match"
-      puts "confirm password"
+      puts "Passwords did not match."
+      puts "confirm password."
       confirm = gets.strip
+      puts
     end
-    puts "username created!"
+    puts "🎉🎊 Username created! 🎊🎉"
+    puts
     hash[:username] = username
     hash[:password] = password
     hash[:password_confirmation] = confirm

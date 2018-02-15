@@ -14,28 +14,33 @@ def manage_reservations
 end
 
 def sign_in_to_manage
-  puts "Please sign in"
-  puts "enter username"
+  puts "Please sign in to manage your reservations."
+  puts "Enter username."
   username = gets.strip
+  puts
   customer = Customer.find_by(username: username)
   # username exists
   if customer
     get_password(customer)
-    puts "login successful!"
+    puts "Login successful!"
+    puts
   else
-    puts "Please make a username with your first reservation"
+    puts "Please make a username with your first reservation."
+    puts
     welcome
   end
   customer
 end
 
 def get_password(customer)
-  puts "enter password"
+  puts "Enter password."
   password = gets.strip
+  puts
   until customer.authenticate(password)
-    puts "incorrect password"
-    puts "enter password"
+    puts "Incorrect password."
+    puts "Enter password."
     password = gets.strip
+    puts
   end
 end
 
@@ -51,13 +56,17 @@ def select_option(user)
   option = gets.strip.to_i
   until option.between?(1, 3)
     puts "invalid input"
+    puts
     managing_options(user)
   end
   if option == 1
+    puts
     option_1(user)
   elsif option == 2
+    puts
     option_2(user)
   else
+    puts
     welcome
   end
 end
@@ -88,24 +97,28 @@ def option_2(user)
   end
 
   puts "Please enter the confirmation # of the reservation you want to cancel."
-
   confirmation = gets.strip
+  puts
   until check_input_is_only_number(confirmation) && confirmation != '0'
     puts "Please enter the confirmation # of the reservation you want to cancel."
     confirmation = gets.strip
+    puts
   end
 
   reservation_to_cancel = Reservation.find_by(id: confirmation)
   if available_to_cancel.find_by(id: confirmation.to_i) == nil
     puts "This confirmation number was not found."
+    puts
     managing_options(user)
   elsif available_to_cancel.find_by(customer_id: user.id)
     reservation_to_cancel.cancelled = true
     reservation_to_cancel.save
-    puts "Your reservation has been cancelled."
+    puts "Your reservation has been cancelled. 😢"
+    puts
     managing_options(user)
   else
     puts "This confirmation number was not found."
+    puts
     managing_options(user)
   end
 
